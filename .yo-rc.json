@@ -1,41 +1,48 @@
 {
   "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.vpl.treeview.gwapp",
+      "nativeLanguage": "en"
+    },
+    "jhipsterVersion": "5.3.1",
     "applicationType": "gateway",
-    "gitCompany": "",
     "baseName": "vpltreeviewapplication",
-    "packageName": "com.vpl.cps.treeview.application",
-    "packageFolder": "com/vpl/cps/treeview/application",
-    "serverPort": 8080,
-    "serviceDiscoveryType": false,
+    "packageName": "com.vpl.treeview.gwapp",
+    "packageFolder": "com/vpl/treeview/gwapp",
+    "serverPort": "8070",
     "authenticationType": "jwt",
-    "uaaBaseName": "../uaa",
     "cacheProvider": "ehcache",
     "enableHibernateCache": true,
-    "websocket": "spring-websocket",
+    "websocket": false,
     "databaseType": "sql",
     "devDatabaseType": "mysql",
     "prodDatabaseType": "mysql",
     "searchEngine": "elasticsearch",
-    "enableSwaggerCodegen": "true",
     "messageBroker": false,
+    "serviceDiscoveryType": false,
     "buildTool": "maven",
+    "enableSwaggerCodegen": true,
+    "jwtSecretKey": "M2JhMDU5M2YxMjU0NWM4OTZjYjI2ZWNiYmE2MzEzNGJiNjQ0NDVmZjI2ZmZjNmI5NmU4MzIzZGY5NjNhOTMyMzcyZWEwNDkwZWQ4OGYwZDhlM2YzNzlmMzVhM2UyNGFhYWRjYjQ4NDBkZThmZWEzYmMxNTUwYmM0NGRhZjRmNzI=",
+    "clientFramework": "angularX",
     "useSass": true,
     "clientPackageManager": "npm",
     "testFrameworks": [],
-    "enableTranslation": false,
+    "jhiPrefix": "jhi",
+    "otherModules": [
+      {
+        "name": "generator-jhipster-swagger-cli",
+        "version": "3.0.1"
+      },
+      {
+        "name": "generator-jhipster-angular-material-integration",
+        "version": "1.0.17"
+      }
+    ],
+    "enableTranslation": true,
     "nativeLanguage": "en",
     "languages": [
-      "en"
-    ],
-    "clientFramework": "angularX",
-    "jhiPrefix": "jhi",
-    "jhipsterVersion": "5.8.2",
-    "jwtSecretKey": "MTJlODZiYTgwYTU0ZmVjMzMzYWU5YTU4M2U1MjAyODczOWE3OTZhMjEwNDNjZDYyNTk0YWI1NWQ3MjFjNzk1NzE5ZjBmNjlmMmQyNGY3MWM2MzUyMjdjNzIxMTM1YTM2YzIxZTMyZTQ1ODdmMzQ4ODY3NjhjMDc4NWU5NThiM2I=",
-    "entitySuffix": "",
-    "dtoSuffix": "DTO",
-    "otherModules": []
-  },
-  "git-provider": "GitHub",
-  "git-company": "tvprasad",
-  "repository-name": "vpl-treeview-application"
+      "en",
+      "fr"
+    ]
+  }
 }
