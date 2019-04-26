@@ -1,0 +1,242 @@
+<div class="subContainer">
+    <div class="row">
+        <div class="col-lg-2 box">
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+
+                <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="linkCss">
+                    <button mat-icon-button disabled></button>
+                    <a (click)="logNode(node)" [class]="activeNode === node ? 'underline ' : ''">{{node.name}}</a>
+                </mat-tree-node>
+
+                <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding class="linkCss">
+                    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.name">
+                        <mat-icon class="mat-icon-rtl-mirror" style="color: #F8D775">
+                            {{treeControl.isExpandable(node) ? (treeControl.isExpanded(node) ? 'folder_open' : 'folder') : 'folder'}}
+                        </mat-icon>
+
+                    <a (click)="logNode(node)" [class]="activeNode === node ? 'underline ml-2' : 'ml-2'">{{node.name}}</a>
+                    </button>
+                </mat-tree-node>
+
+            </mat-tree>
+        </div>
+        <div class="col-lg-10 box">
+            <h3 class="title p-2">{{activeNode.name}}</h3>
+            <mat-form-field *ngIf="tableData">
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" >
+            </mat-form-field>
+            <mat-table #table [dataSource]="tableData" class="mat-elevation-z8" *ngIf="tableData" matSort>
+                <ng-container matColumnDef="fname">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header mat-sort-header > FName</mat-header-cell>
+                    <mat-cell *matCellDef="let element" > {{element.fname}}
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="fdate">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header> FDate</mat-header-cell>
+                    <mat-cell *matCellDef="let element" > {{element.fdate && element.fdate.split(' ')[0]}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="ftype">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > FType</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.ftype}}</mat-cell>
+                </ng-container>
+
+
+                <ng-container matColumnDef="fsize">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > FSize</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.fsize}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="ldate">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > LDate</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.ldate && element.ldate.split(' ')[0]}}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="lsize">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > LSize</mat-header-cell>
+                    <mat-cell class="text-center" *matCellDef="let element">{{element.lsize}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <mat-header-cell class="justify-content-center text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > Action </mat-header-cell>
+                    <mat-cell class="justify-content-center" *matCellDef="let element">
+
+                        <mat-icon class="text-warning mr-3" (click)="open(content, element)">{{'edit'}}</mat-icon>
+                        <mat-icon class="text-danger mr-3" (click)="delete(deleteContent, element)">{{'delete'}}</mat-icon>
+                        <mat-icon class="text-primary" (click)="open(content)">{{'add_circle'}}</mat-icon>
+
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" style="background-color:cadetblue;" ></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+            </mat-table>
+            <mat-paginator *ngIf="tableData" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <div *ngIf="!tableData">
+                <div class="d-flex justify-content-center align-items-center">
+                    No Data Available
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ng-template #content let-modal let-c="close" let-d="dismiss">
+    <!--<div class="modal-header text-center text-primary">-->
+    <!--<h4 class="modal-title" id="modal-basic-title">Add New Registry Entry</h4>-->
+    <!--<button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">-->
+    <!--<span aria-hidden="true">&times;</span>-->
+    <!--</button>-->
+    <!--</div>-->
+    <div class="modal-body">
+        <div class=" text-center text-primary">
+            <h4 class="modal-title underline" id="modal-basic-title">Add New Registry Entry</h4>
+        </div>
+        <p class="text-center">You can new registry key in the registry at same path level</p>
+        <div>
+            <h4 class="text-danger">Caution</h4>
+            <p>If you make mistake that results in your printer may not start and Icorrectly editing the registry may
+                severely damage your system</p>
+
+        </div>
+
+        <form>
+            <!--<div class="row">-->
+                <!--<div class="col-3 column-center">-->
+                    <!--<label for="RegistryPath"> Registry Path: </label>-->
+                <!--</div>-->
+                <!--<div class="col-9">-->
+                    <!--<select class="w-100" id="RegistryPath">-->
+                        <!--<option value="R6">R6</option>-->
+                        <!--<option value="R7">R7</option>-->
+                        <!--<option value="R8">R8</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row">-->
+                <!--<div class="col-3 column-center">-->
+                    <!--<label for="KeyValue"> Key Value: </label>-->
+                <!--</div>-->
+                <!--<div class="col-9">-->
+                    <!--<select class="w-100" id="KeyValue">-->
+                        <!--<option value="binary value">Binary Value</option>-->
+                        <!--<option value="dword32BitValue">DWORD (32-Bit) Value</option>-->
+                        <!--<option value="dword64BitValue">DWORD (64-Bit) Value</option>-->
+                        <!--<option value="multiStringValue">Multi String Value</option>-->
+                        <!--<option value="expandableStringValue">Expandable String Value</option>-->
+                    <!--</select>-->
+                <!--</div>-->
+            <!--</div>-->
+            <div class="row">
+                <div class="col-3 column-center">
+                    <label for="fName">FName: </label>
+
+                </div>
+                <div class="col-9">
+                    <input id="fName" name="fname" [(ngModel)]="modalData.fname" class="form-control" type="text" placeholder="Enter new name here"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 column-center">
+                    <label for="fDate">FDate:</label>
+                </div>
+                <div class="col-9">
+                    <input
+                        id="fDate"
+                        name="fdate"
+                        [(ngModel)]="modalData.fdate"
+                        class="form-control"
+                        type="date"
+                        placeholder="Enter data value here" />
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-3 column-center">
+                    <label for="fDate">FType:</label>
+                </div>
+                <div class="col-9">
+                    <input id="fType" name="ftype" [(ngModel)]="modalData.ftype" class="form-control" type="text" placeholder="Enter data value here" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 column-center">
+                    <label for="fSize">FSize:</label>
+                </div>
+                <div class="col-9">
+                    <input id="fSize" name="fsize" [(ngModel)]="modalData.fsize" class="form-control" type="text" placeholder="Enter data value here" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 column-center">
+                    <label for="lDate">LDate:</label>
+                </div>
+                <div class="col-9">
+                    <input id="lDate" name="ldate" [(ngModel)]="modalData.ldate" class="form-control" type="date" placeholder="Enter data value here" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 column-center">
+                    <label for="lSize">LSize:</label>
+                </div>
+                <div class="col-9">
+                    <input id="lSize" name="lsize" [(ngModel)]="modalData.lsize" class="form-control" type="text" placeholder="Enter data value here" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer">
+        <!--<button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>-->
+        <div class="row">
+            <button
+                class="btn btn-lg mr-3 btn-primary"
+                (click)="c('Submit')">Submit</button>
+            <button
+                class="btn btn-lg mr-3 rounded btn-warning"
+                (click)="d('Cancel')">Cancel</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #deleteContent let-modal let-c="close" let-d="dismiss">
+<div class="modal-header">
+    <h4 class="text-center">Are you sure to delete ?</h4>
+</div>
+    <div class="modal-body">
+        <table>
+            <tr>
+                <td>FName</td>
+                <td>{{deleteEle.fname}}</td>
+            </tr>
+            <tr>
+                <td>FDate:</td>
+                <td>{{deleteEle.fdate}}</td>
+            </tr>
+            <tr>
+                <td>FType:</td>
+                <td>{{deleteEle.ftype}}</td>
+            </tr>
+            <tr>
+                <td>FSize:</td>
+                <td>{{deleteEle.fsize}}</td>
+            </tr>
+            <tr>
+                <td>LDate:</td>
+                <td>{{deleteEle.ldate}}</td>
+            </tr>
+            <tr>
+                <td>LSize:</td>
+                <td>{{deleteEle.lsize}}</td>
+            </tr>
+        </table>
+    </div>
+<div class="modal-footer">
+    <button mat-button (click)="d('No Thanks')">No Thanks</button>
+    <button mat-button autofocus class="btn-danger" (click)="c('ok')" >Ok</button>
+</div>
+</ng-template>
+<!--<button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>-->
+<hr>
+
+

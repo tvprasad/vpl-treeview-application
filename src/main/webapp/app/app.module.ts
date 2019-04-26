@@ -20,10 +20,13 @@ import { VpltreeviewapplicationEntityModule } from './entities/entity.module';
 import * as moment from 'moment';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { VpltreeviewapplicationRegModule } from 'app/registry/registry.module';
 
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         Ng2Webstorage.forRoot({ prefix: 'jhi', separator: '-' }),
         NgJhipsterModule.forRoot({
             // set below to true to make alerts look like toast
@@ -36,6 +39,7 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         VpltreeviewapplicationAccountModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
         VpltreeviewapplicationEntityModule,
+        VpltreeviewapplicationRegModule,
         VpltreeviewapplicationAppRoutingModule
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],

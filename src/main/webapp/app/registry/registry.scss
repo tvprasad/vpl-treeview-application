@@ -1,0 +1,67 @@
+*:focus {
+    outline: none;
+}
+
+label {
+    font-size: 20px;
+    color: #000000;
+}
+
+.column-center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+form select {
+    height: 40px;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+button:active,
+button:checked,
+button:focus {
+    outline: none;
+}
+
+.subContainer {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.box {
+    border: solid 1px lightgray;
+}
+
+.linkCss {
+    cursor: pointer;
+}
+
+.underline {
+    text-decoration: underline !important;
+}
+
+.mat-sort-header-container {
+    display: flex;
+    justify-content: center;
+}
+
+mat-icon {
+    cursor: pointer;
+}
+
+.mat-form-field {
+    font-size: 16px;
+    width: 100%;
+}
+
+th.mat-sort-header-sorted {
+    color: black;
+}

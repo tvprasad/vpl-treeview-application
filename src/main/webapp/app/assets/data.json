@@ -1,0 +1,67 @@
+[
+    {
+        "name": "Application Data",
+        "children": [
+            {
+                "name": "Application Data"
+            }
+        ]
+    },
+    {
+        "name": "Hard Disk",
+        "children": [
+            {
+                "name": "Hard Disk"
+            }
+        ]
+    },
+    {
+        "name": "My Documents",
+        "children": [
+            {
+                "name": "My Documents"
+            }
+        ]
+    },
+    {
+        "name": "Network",
+        "children": [
+            {
+                "name": "Network"
+            }
+        ]
+    },
+    {
+        "name": "Program Files",
+        "children": [
+            {
+                "name": "Program Files"
+            }
+        ]
+    },
+    {
+        "name": "Recycled",
+        "children": [
+            {
+                "name": "Recycled"
+            }
+        ]
+    },
+    {
+        "name": "Temp",
+        "children": [
+            {
+                "name": "Temp"
+            }
+        ]
+    },
+    {
+        "name": "Windows",
+        "children": [
+            {
+                "name": "Windows"
+            }
+        ]
+    }
+]
+

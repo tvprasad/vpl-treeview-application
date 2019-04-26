@@ -9,12 +9,19 @@ import {
     HasAnyAuthorityDirective
 } from './';
 
+import { VpltreeviewapplicationMaterialModule } from '../VpltreeviewapplicationMaterial.module';
+
 @NgModule({
-    imports: [VpltreeviewapplicationSharedLibsModule, VpltreeviewapplicationSharedCommonModule],
+    imports: [VpltreeviewapplicationSharedLibsModule, VpltreeviewapplicationSharedCommonModule, VpltreeviewapplicationMaterialModule],
     declarations: [JhiLoginModalComponent, HasAnyAuthorityDirective],
     providers: [{ provide: NgbDateAdapter, useClass: NgbDateMomentAdapter }],
     entryComponents: [JhiLoginModalComponent],
-    exports: [VpltreeviewapplicationSharedCommonModule, JhiLoginModalComponent, HasAnyAuthorityDirective],
+    exports: [
+        VpltreeviewapplicationSharedCommonModule,
+        JhiLoginModalComponent,
+        HasAnyAuthorityDirective,
+        VpltreeviewapplicationMaterialModule
+    ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class VpltreeviewapplicationSharedModule {
