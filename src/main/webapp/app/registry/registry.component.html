@@ -1,6 +1,7 @@
 <div class="subContainer">
     <div class="row">
-        <div class="col-lg-2 box">
+        <div class="box pr-3">
+            <!--
             <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 
                 <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding class="linkCss">
@@ -19,42 +20,62 @@
                 </mat-tree-node>
 
             </mat-tree>
+            -->
+            <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+                    <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                      <button mat-icon-button disabled></button>
+                      {{node.item}}
+                    </mat-tree-node>
+                    <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+                      <button mat-icon-button
+                              [attr.aria-label]="'toggle ' + node.filename" matTreeNodeToggle>
+                        <mat-icon class="mat-icon-rtl-mirror" style="color: #F8D775">
+                          {{treeControl.isExpanded(node) ? 'folder_open' : 'folder'}}
+                        </mat-icon>
+                      </button>
+                      {{node.item}}
+                      <mat-progress-bar *ngIf="node.isLoading"
+                                        mode="indeterminate"
+                                        class="example-tree-progress-bar"></mat-progress-bar>
+                    </mat-tree-node>
+                  </mat-tree>
         </div>
-        <div class="col-lg-10 box">
+        <div class=" box flex-grow-1 bg-white p-3">
             <h3 class="title p-2">{{activeNode.name}}</h3>
             <mat-form-field *ngIf="tableData">
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter" >
             </mat-form-field>
-            <mat-table #table [dataSource]="tableData" class="mat-elevation-z8" *ngIf="tableData" matSort>
-                <ng-container matColumnDef="fname">
-                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header mat-sort-header > FName</mat-header-cell>
-                    <mat-cell *matCellDef="let element" > {{element.fname}}
+            <mat-table #table [dataSource]="tableData" 
+            class="mat-elevation-z8" *ngIf="tableData" matSort>
+                <ng-container matColumnDef="name">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header mat-sort-header > Name</mat-header-cell>
+                    <mat-cell *matCellDef="let element" > {{element.name}}
                     </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="fdate">
-                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header> FDate</mat-header-cell>
-                    <mat-cell *matCellDef="let element" > {{element.fdate && element.fdate.split(' ')[0]}}</mat-cell>
+                <ng-container matColumnDef="type">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header> Type</mat-header-cell>
+                    <mat-cell *matCellDef="let element" > {{element.type}}</mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="ftype">
-                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > FType</mat-header-cell>
-                    <mat-cell *matCellDef="let element"> {{element.ftype}}</mat-cell>
+                <ng-container matColumnDef="value">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > Value</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> {{element.value}}</mat-cell>
                 </ng-container>
 
 
-                <ng-container matColumnDef="fsize">
-                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > FSize</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.fsize}}</mat-cell>
+                <ng-container matColumnDef="default">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > Default</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.default}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="ldate">
-                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > LDate</mat-header-cell>
-                    <mat-cell *matCellDef="let element">{{element.ldate && element.ldate.split(' ')[0]}}</mat-cell>
+                <ng-container matColumnDef="description">
+                    <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > Description</mat-header-cell>
+                    <mat-cell *matCellDef="let element">{{element.description}}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="lsize">
+                <!-- <ng-container matColumnDef="lsize">
                     <mat-header-cell class="text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > LSize</mat-header-cell>
                     <mat-cell class="text-center" *matCellDef="let element">{{element.lsize}}</mat-cell>
-                </ng-container>
+                </ng-container> -->
 
                 <ng-container matColumnDef="action">
                     <mat-header-cell class="justify-content-center text-white" style="font-size: 16px" *matHeaderCellDef mat-sort-header > Action </mat-header-cell>
@@ -70,7 +91,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns;sticky: true" style="background-color:cadetblue;" ></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
             </mat-table>
-            <mat-paginator *ngIf="tableData" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            <mat-paginator *ngIf="tableData" [length]="tableData.length" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
             <div *ngIf="!tableData">
                 <div class="d-flex justify-content-center align-items-center">
                     No Data Available
