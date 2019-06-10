@@ -47,8 +47,8 @@ export class DynamicDataSource {
      * Toggle the node, remove from display list
      */
     toggleNode(node: DynamicFlatNode, expand: boolean) {
+        const children = this.jsonService.getChildren(node.item, node.level, expand);
         this.jsonService.setActiveNode(node.item);
-        const children = this.jsonService.getChildren(node.item);
         const index = this.data.indexOf(node);
         if (!children || index < 0) {
             // If no children, or cannot find the node, no op
@@ -62,7 +62,12 @@ export class DynamicDataSource {
                 const nodes = children.map(name => new DynamicFlatNode(name, node.level + 1, this.jsonService.isExpandable(name)));
                 this.data.splice(index + 1, 0, ...nodes);
             } else {
-                this.data = this.data.filter(childData => childData.level <= node.level);
+                this.data = this.data.filter(childData => {
+                    if (childData.level === node.level + 1) {
+                        return !children.includes(childData.item);
+                    }
+                    return childData.level <= node.level;
+                });
                 // this.data.splice(index + 1, children.length);
             }
 

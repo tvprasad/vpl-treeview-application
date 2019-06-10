@@ -65,7 +65,7 @@ export class RegistryComponent implements OnInit {
         this.treeControl = new FlatTreeControl<DynamicFlatNode>(this.getLevel, this.isExpandable);
         this.dataSource = new DynamicDataSource(this.treeControl, jsonService);
 
-        jsonService.getNodes();
+        // jsonService.getNodes();
         jsonService.getActiveNode().subscribe(dataToDisplay => {
             if (dataToDisplay && dataToDisplay.length > 0) {
                 this.tableData = new MatTableDataSource(dataToDisplay);

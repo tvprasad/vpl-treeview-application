@@ -11,7 +11,7 @@ import { Subject, Observable } from 'rxjs';
 export class GetJsonDataService {
     // localUrl = 'assets/data.json';
     resultMap = [];
-    rootLevelNodes = [];
+    rootLevelNodes = ['HKEY_LOCAL_MACHINE']; // static Root
     dataMap = new Map();
     subject = new Subject<any[]>();
     data = [
@@ -954,32 +954,47 @@ export class GetJsonDataService {
         });
     }
 
-    getNodes() {
-        for (let i in this.NODE_DATA) {
-            this.NODE_DATA[i][0].forEach(item => {
-                let nodes = item.key
-                    .replace(/\\\\/g, ' ')
-                    .split(' ')
-                    .filter(Boolean);
-                if (!this.rootLevelNodes.includes(nodes[0])) {
-                    this.rootLevelNodes.push(nodes[0]);
-                }
-                this.arrangeChildNodes(nodes);
-            });
-            this.NODE_TABLE_DATA[i] = this.NODE_DATA[i][1];
-        }
+    getNodes(key, data) {
+        // for (let i in this.NODE_DATA) {
+        // this.NODE_DATA[i][0].forEach(item => {
+        data[0].forEach(item => {
+            let nodes = item.key
+                .replace(/\\\\/g, ' ')
+                .split(' ')
+                .filter(Boolean);
+            if (!this.rootLevelNodes.includes(nodes[0])) {
+                this.rootLevelNodes.push(nodes[0]);
+            }
+            this.arrangeChildNodes(nodes);
+        });
+        this.NODE_TABLE_DATA[key] = data[1];
+        // }
     }
 
     initialData(): DynamicFlatNode[] {
         return this.rootLevelNodes.map(name => new DynamicFlatNode(name, 0, true));
     }
 
-    getChildren(node: string): string[] | undefined {
+    getChildren(node: string, level: number, isExpand): string[] | undefined {
+        if (level === 0) {
+            this.getNodes('root', this.NODE_DATA['root']);
+        } else if (level > 0) {
+            let nodeName = node.toLowerCase();
+            if (this.NODE_DATA[nodeName] && isExpand) {
+                this.getNodes(nodeName, this.NODE_DATA[nodeName]);
+            } else if (!isExpand) {
+                if (this.NODE_DATA[nodeName] && this.dataMap.has(node)) {
+                    delete this.NODE_TABLE_DATA[nodeName];
+                    setTimeout(() => this.dataMap.delete(node), 500);
+                }
+            }
+        }
         return this.dataMap.get(node);
     }
 
     isExpandable(node: string): boolean {
-        return this.dataMap.has(node);
+        return true;
+        // return this.dataMap.has(node);
     }
 
     setActiveNode(nodeName) {
